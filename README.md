@@ -2,8 +2,6 @@
 
 <div align="center">
 
-<img src="./quizmaster-banner.png" alt="QuizMaster Banner" width="100%"/>
-
 ### 🚀 Enterprise-Grade Online Examination, Quiz & Assessment Platform
 
 **QuizMaster** is a modern, secure, AI-powered examination management platform designed for universities, schools, training institutes, educators, certification providers, and professional learning platforms.
