@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="docs/screenshots/quizmaster-banner.png" alt="QuizMaster Banner" width="100%"/>
+<img src="./quizmaster-banner.png" alt="QuizMaster Banner" width="100%"/>
 
 ### 🚀 Enterprise-Grade Online Examination, Quiz & Assessment Platform
 
@@ -27,25 +27,27 @@ It combines **online examinations, intelligent quiz generation, real-time analyt
 
 </div>
 
+---
+
 # 📸 Screenshots
 
 ## 🏠 Landing Page
 
-![QuizMaster Landing Page](docs/screenshots/landing-page.png)
+![QuizMaster Landing Page](./landing-page.png)
 
 ---
 
 ## 🔐 Authentication
 
-![Login Page](docs/screenshots/login.png)
+![Login Page](./login.png)
 
-![Registration Page](docs/screenshots/register.png)
+![Registration Page](./register.png)
 
 ---
 
 ## 👑 Admin Dashboard
 
-![Admin Dashboard](docs/screenshots/admin-dashboard.png)
+![Admin Dashboard](./admin-dashboard.png)
 
 The administrative dashboard provides:
 
@@ -67,7 +69,7 @@ The administrative dashboard provides:
 
 ## 📝 Quiz Management
 
-![Quiz Management](docs/screenshots/quiz-management.png)
+![Quiz Management](./quiz-management.png)
 
 Administrators can:
 
@@ -90,7 +92,7 @@ Administrators can:
 
 ## 🧠 Question Bank
 
-![Question Bank](docs/screenshots/question-bank.png)
+![Question Bank](./question-bank.png)
 
 Centralized question management supporting:
 
@@ -114,7 +116,7 @@ Centralized question management supporting:
 
 ## 🤖 AI Quiz Generator
 
-![AI Quiz Generator](docs/screenshots/ai-generator.png)
+![AI Quiz Generator](./ai-generator.png)
 
 Generate complete examinations using natural-language instructions.
 
@@ -143,7 +145,7 @@ Include:
 
 ## 🎯 Student Dashboard
 
-![Student Dashboard](docs/screenshots/student-dashboard.png)
+![Student Dashboard](./student-dashboard.png)
 
 Students can view:
 
@@ -163,7 +165,7 @@ Students can view:
 
 ## ⏱️ Examination Engine
 
-![Exam Interface](docs/screenshots/exam-interface.png)
+![Exam Interface](./exam-interface.png)
 
 The examination engine provides:
 
@@ -183,7 +185,7 @@ The examination engine provides:
 
 ## 📊 Examination Results
 
-![Results Dashboard](docs/screenshots/results-dashboard.png)
+![Results Dashboard](./results-dashboard.png)
 
 Students receive:
 
@@ -204,7 +206,7 @@ Students receive:
 
 ## 🏆 Leaderboard
 
-![Leaderboard](docs/screenshots/leaderboard.png)
+![Leaderboard](./leaderboard.png)
 
 Leaderboard scopes:
 
@@ -219,7 +221,7 @@ Leaderboard scopes:
 
 ## 📜 Digital Certificate
 
-![Certificate](docs/screenshots/certificate.png)
+![Certificate](./certificate.png)
 
 Certificates include:
 
@@ -238,7 +240,7 @@ Certificates include:
 
 ## 🔎 Certificate Verification
 
-![Certificate Verification](docs/screenshots/certificate-verification.png)
+![Certificate Verification](./certificate-verification.png)
 
 Anyone can verify a certificate using its unique verification code or QR code.
 
@@ -252,7 +254,7 @@ https://your-domain.com/verify/QM-8F4A9C21
 
 ## 📈 Advanced Analytics
 
-![Analytics Dashboard](docs/screenshots/analytics-dashboard.png)
+![Analytics Dashboard](./analytics-dashboard.png)
 
 Analytics include:
 
@@ -1092,15 +1094,23 @@ QuizMaster/
 │   ├── .env.example
 │   └── package.json
 │
-├── docs/
-│   ├── screenshots/
-│   ├── architecture/
-│   └── api/
+├── quizmaster-banner.png
+├── landing-page.png
+├── login.png
+├── register.png
+├── admin-dashboard.png
+├── quiz-management.png
+├── question-bank.png
+├── ai-generator.png
+├── student-dashboard.png
+├── exam-interface.png
+├── results-dashboard.png
+├── leaderboard.png
+├── certificate.png
+├── certificate-verification.png
+├── analytics-dashboard.png
 │
 ├── postman/
-│   ├── QuizMaster.postman_collection.json
-│   └── QuizMaster.postman_environment.json
-│
 ├── README.md
 ├── TECHNICAL_REPORT.md
 └── LICENSE
@@ -1238,19 +1248,14 @@ GET /api/analytics/performance
 * MongoDB Atlas or local MongoDB
 * Google Gemini API key
 
----
-
 ## Backend
 
 ```bash
 cd backend
-
 npm install
-
-cp .env.example .env
 ```
 
-Configure:
+Create `.env` from `.env.example`:
 
 ```env
 PORT=5000
@@ -1288,7 +1293,6 @@ http://localhost:5000
 
 ```bash
 cd frontend
-
 npm install
 ```
 
@@ -1330,7 +1334,6 @@ Run backend tests:
 
 ```bash
 cd backend
-
 npm test
 ```
 
@@ -1346,25 +1349,6 @@ Snapshot Isolation
 Exam Sessions
 API Validation
 Certificate Verification
-```
-
----
-
-# 🧪 Example Scoring Test
-
-```text
-Question Marks:       2
-Negative Mark:        0.5
-
-Correct Answers:      8
-Wrong Answers:        2
-Skipped:              0
-
-Score:
-8 × 2 = 16
-2 × 0.5 = 1 penalty
-
-Final Score = 15
 ```
 
 ---
@@ -1428,21 +1412,6 @@ aiGenerations
 systemSettings
 ```
 
-Important indexes should be maintained for:
-
-```text
-user.email
-quiz.slug
-quiz.status
-question.category
-attempt.student
-attempt.quiz
-certificate.verificationCode
-examSession.student
-examSession.status
-auditLog.createdAt
-```
-
 ---
 
 # 🔄 Examination Lifecycle
@@ -1483,136 +1452,6 @@ Certificate issued
 
 ---
 
-# 🧊 Snapshot Architecture
-
-One of QuizMaster's most important features is immutable examination state.
-
-```text
-QUESTION BANK
-     │
-     ├── Question A
-     ├── Question B
-     ├── Question C
-     │
-     ▼
-EXAM START
-     │
-     ▼
-SNAPSHOT
-     │
-     ├── Question A version 1
-     ├── Question B version 1
-     └── Question C version 1
-             │
-             ▼
-        STUDENT ATTEMPT
-```
-
-If an administrator changes Question B later:
-
-```text
-Question B v2
-```
-
-The historical attempt continues using:
-
-```text
-Question B v1
-```
-
-This guarantees historical result integrity.
-
----
-
-# ⚡ Performance Features
-
-QuizMaster is designed for high-concurrency scenarios.
-
-Optimization strategies include:
-
-* MongoDB indexing
-* Lean queries
-* Pagination
-* Aggregation pipelines
-* API response normalization
-* Lazy-loaded frontend routes
-* Component-level code splitting
-* Debounced search
-* Cached dashboard data
-* Efficient exam synchronization
-* Minimal payloads
-* Server-side pagination
-
----
-
-# 📱 Progressive Web Experience
-
-Future-ready capabilities can include:
-
-* Installable application
-* Offline shell
-* Background synchronization
-* Push notifications
-* Network-aware UI
-* Offline exam recovery
-
----
-
-# ♿ Accessibility
-
-The interface is designed to support:
-
-* Keyboard navigation
-* Screen readers
-* Accessible labels
-* Focus states
-* Semantic HTML
-* Color-independent status indicators
-* Reduced-motion preferences
-* Responsive text
-
----
-
-# 🌍 Internationalization Ready
-
-QuizMaster can be extended for:
-
-```text
-English
-தமிழ்
-සිංහල
-```
-
-Future translations can cover:
-
-* Navigation
-* Questions
-* Instructions
-* Results
-* Certificates
-* Notifications
-* Admin interface
-
----
-
-# 🧑‍💻 Developer Experience
-
-Included developer tooling:
-
-* ESLint
-* Environment configuration
-* API service abstraction
-* Reusable UI components
-* Validation middleware
-* Centralized error handling
-* API documentation
-* Postman collection
-* Automated tests
-* Seed scripts
-* Structured logging
-
----
-
 # 🗺️ Roadmap
 
 ## Phase 1 — Core Platform
@@ -1644,147 +1483,20 @@ Included developer tooling:
 * [ ] SSO
 * [ ] Advanced audit reports
 
-## Phase 4 — Advanced Assessment
-
-* [ ] Question difficulty calibration
-* [ ] Item analysis
-* [ ] Question discrimination index
-* [ ] Bloom's taxonomy classification
-* [ ] Adaptive testing
-* [ ] Exam proctoring integration
-* [ ] Browser integrity monitoring
-
-## Phase 5 — Learning Intelligence
-
-* [ ] Personalized learning paths
-* [ ] AI-generated study plans
-* [ ] Weak-topic prediction
-* [ ] Knowledge graphs
-* [ ] Skill mastery tracking
-* [ ] Recommendation engine
-
----
-
-# 🔮 Future Advanced Features
-
-QuizMaster can evolve into a complete **AI Assessment Operating System**.
-
-### 🧠 Adaptive Examination Engine
-
-Questions dynamically adjust according to student performance.
-
-```text
-Easy
- ↓
-Correct
- ↓
-Medium
- ↓
-Correct
- ↓
-Hard
- ↓
-Incorrect
- ↓
-Medium
-```
-
-### 📊 Psychometric Analysis
-
-Future assessment intelligence can calculate:
-
-* Difficulty index
-* Discrimination index
-* Reliability
-* Question effectiveness
-* Distractor effectiveness
-
-### 🛡️ AI-Assisted Proctoring
-
-Potential capabilities:
-
-* Face presence detection
-* Multiple-person detection
-* Tab-switch monitoring
-* Suspicious activity detection
-* Full-screen monitoring
-* Examination event timeline
-
-> Proctoring features should be implemented with appropriate privacy, consent, accessibility, and institutional policies.
-
----
-
-# 🏢 Enterprise Multi-Tenant Architecture
-
-Future architecture:
-
-```text
-Platform
-│
-├── University A
-│   ├── Faculty
-│   ├── Departments
-│   ├── Teachers
-│   └── Students
-│
-├── University B
-│   ├── Faculty
-│   ├── Departments
-│   ├── Teachers
-│   └── Students
-│
-└── Training Institute C
-    ├── Courses
-    ├── Trainers
-    └── Learners
-```
-
-Each organization can have:
-
-* Separate users
-* Separate quizzes
-* Separate branding
-* Separate certificates
-* Separate analytics
-* Separate configuration
-
----
-
-# 🏆 Why QuizMaster?
-
-| Capability           | QuizMaster |
-| -------------------- | ---------: |
-| Online Exams         |          ✅ |
-| Quiz Management      |          ✅ |
-| Question Bank        |          ✅ |
-| Server-Side Scoring  |          ✅ |
-| Snapshot Isolation   |          ✅ |
-| Auto Save            |          ✅ |
-| Exam Recovery        |          ✅ |
-| Negative Marking     |          ✅ |
-| Randomization        |          ✅ |
-| AI Quiz Generation   |          ✅ |
-| AI Tutor             |          ✅ |
-| Analytics            |          ✅ |
-| Leaderboards         |          ✅ |
-| Achievements         |          ✅ |
-| Digital Certificates |          ✅ |
-| QR Verification      |          ✅ |
-| Audit Logs           |          ✅ |
-| RBAC                 |          ✅ |
-| Responsive UI        |          ✅ |
-| Dark Mode            |          ✅ |
-| API Architecture     |          ✅ |
-| Automated Testing    |          ✅ |
-
 ---
 
 # 📚 Documentation
 
-Additional documentation:
+Additional documentation can be maintained in:
 
 ```text
-docs/
+backend/docs/
+```
+
+Recommended documentation:
+
+```text
+backend/docs/
 ├── API.md
 ├── ARCHITECTURE.md
 ├── DATABASE.md
@@ -1801,9 +1513,9 @@ docs/
 Contributions are welcome.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/quizmaster.git
+git clone https://github.com/Jathugulan/quizmaster-pro-mern.git
 
-cd quizmaster
+cd quizmaster-pro-mern
 
 git checkout -b feature/new-feature
 
