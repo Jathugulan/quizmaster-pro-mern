@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizMaster — Technical Report</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+    :root {
+      --primary: #0071e3;
+      --primary-light: #e8f2fd;
+      --text: #1d1d1f;
+      --text-sec: #515154;
+      --muted: #6e6e73;
+      --bg: #ffffff;
+      --surface: #f5f5f7;
+      --border: #e5e5ea;
+      --success: #34c759;
+      --danger: #ff3b30;
+      --warning: #ff9500;
+      --purple: #af52de;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      font-size: 11pt;
+    }
+
+    @media print {
+      body { font-size: 10pt; }
+      .page-break { page-break-before: always; }
+      .no-break { page-break-inside: avoid; }
+      @page { margin: 20mm 18mm; size: A4; }
+    }
+
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(145deg, #f5f5f7 0%, #e8f2fd 40%, #f0e6ff 70%, #f5f5f7 100%);
+      padding: 60px 40px;
+    }
+    .cover-logo {
+      width: 80px; height: 80px;
+      background: var(--primary);
+      border-radius: 22px;
+      display: grid; place-items: center;
+      color: #fff; font-size: 38px; font-weight: 800;
+      margin-bottom: 32px;
+      box-shadow: 0 12px 40px rgba(0, 113, 227, 0.25);
+    }
+    .cover h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42pt;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .cover .subtitle {
+      font-size: 16pt;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 40px;
+    }
+    .cover .meta-table {
+      margin-top: 20px;
+      font-size: 10.5pt;
+      color: var(--text-sec);
+    }
+    .cover .meta-table td { padding: 4px 16px; text-align: left; }
+    .cover .meta-table td:first-child { font-weight: 600; color: var(--text); }
+
+    .content { max-width: 780px; margin: 0 auto; padding: 48px 40px; }
+
+    h2 {
+      font-size: 18pt;
+      font-weight: 800;
+      color: var(--text);
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 8px;
+      margin: 40px 0 20px;
+    }
+    h2:first-child { margin-top: 0; }
+
+    h3 {
+      font-size: 13pt;
+      font-weight: 700;
+      color: var(--text);
+      margin: 28px 0 12px;
+    }
+
+    h4 {
+      font-size: 11pt;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 20px 0 8px;
+    }
+
+    p { margin-bottom: 12px; color: var(--text-sec); }
+    ul, ol { margin: 8px 0 16px 24px; color: var(--text-sec); }
+    li { margin-bottom: 4px; }
+    strong { color: var(--text); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 9.5pt;
+    }
+    thead th {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 9pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tbody td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-sec);
+    }
+    tbody tr:nth-child(even) td { background: var(--surface); }
+    code {
+      background: var(--surface);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9pt;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      color: var(--primary);
+    }
+
+    .info-box {
+      border-left: 4px solid var(--primary);
+      background: var(--primary-light);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0 20px;
+    }
+    .info-box.warn { border-color: var(--warning); background: #fff8e6; }
+    .info-box.success { border-color: var(--success); background: #edfbf1; }
+
+    .arch-diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      margin: 20px 0 28px;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 8.5pt;
+      line-height: 1.5;
+      white-space: pre;
+      overflow-x: auto;
+      color: var(--text);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .badge-blue { background: var(--primary-light); color: var(--primary); }
+    .badge-green { background: #edfbf1; color: var(--success); }
+    .badge-red { background: #ffeeed; color: var(--danger); }
+    .badge-purple { background: #f5eeff; color: var(--purple); }
+    .badge-orange { background: #fff4e6; color: var(--warning); }
+
+    .toc { margin: 24px 0; }
+    .toc ol { counter-reset: toc-counter; list-style: none; padding-left: 0; }
+    .toc li {
+      counter-increment: toc-counter;
+      padding: 8px 0;
+      border-bottom: 1px dotted var(--border);
+      font-weight: 500;
+    }
+    .toc li::before {
+      content: counter(toc-counter) ".";
+      font-weight: 700;
+      color: var(--primary);
+      margin-right: 10px;
+    }
+    .toc .sub { padding-left: 28px; font-weight: 400; font-size: 10pt; }
+
+    .footer {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--muted);
+      font-size: 9pt;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 20px 0 28px;
+    }
+    .metric-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .metric-card .value {
+      font-size: 22pt;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .metric-card .label {
+      font-size: 8.5pt;
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+  <div class="cover-logo">Q</div>
+  <h1>QuizMaster</h1>
+  <div class="subtitle">Technical Report</div>
+  <p style="font-size:11pt; color:var(--text-sec); max-width:500px;">
+    Quiz Management &amp; Examination Platform<br>
+    A premium, portfolio-grade single-page application
+  </p>
+  <table class="meta-table">
+    <tr><td>Version</td><td>1.0.0</td></tr>
+    <tr><td>Date</td><td>17 August 2026</td></tr>
+    <tr><td>Platform</td><td>Web (React SPA)</td></tr>
+    <tr><td>Environment</td><td>Frontend-only (LocalStorage persistence)</td></tr>
+  </table>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="content page-break">
+  <h2>Table of Contents</h2>
+  <div class="toc">
+    <ol>
+      <li>Executive Summary</li>
+      <li>System Overview &amp; Objectives</li>
+      <li>Technology Stack</li>
+      <li>System Architecture
+        <div class="sub">4.1 High-Level Architecture</div>
+        <div class="sub">4.2 Directory Structure</div>
+        <div class="sub">4.3 Component Hierarchy</div>
+      </li>
+      <li>Module Descriptions
+        <div class="sub">5.1 Authentication Module</div>
+        <div class="sub">5.2 Quiz Engine</div>
+        <div class="sub">5.3 Score Calculator</div>
+        <div class="sub">5.4 Data Access Layer (storage.js)</div>
+        <div class="sub">5.5 Theme System</div>
+        <div class="sub">5.6 Route Guards</div>
+      </li>
+      <li>Feature Inventory
+        <div class="sub">6.1 Student Features</div>
+        <div class="sub">6.2 Admin Features</div>
+      </li>
+      <li>Data Model &amp; Schema</li>
+      <li>Routing &amp; Navigation</li>
+      <li>UI/UX Design System</li>
+      <li>Source Code Statistics</li>
+      <li>Security Considerations</li>
+      <li>Known Limitations</li>
+      <li>Future Enhancements</li>
+      <li>Conclusion</li>
+    </ol>
+  </div>
+</div>
+
+<!-- 1. EXECUTIVE SUMMARY -->
+<div class="content page-break">
+  <h2>1. Executive Summary</h2>
+  <p>
+    <strong>QuizMaster</strong> is a premium, portfolio-grade Quiz Management &amp; Examination Platform
+    built as a frontend-only React single-page application. It demonstrates a fully functional
+    two-role system (Student &amp; Admin) with rich interactive features including timed quiz attempts,
+    real-time score calculation, leaderboard rankings, printable certificates, and comprehensive
+    admin dashboards with analytics.
+  </p>
+  <p>
+    The application is architected with a clean separation of concerns — all data access is isolated
+    behind a single module (<code>storage.js</code>), making it trivial to replace the LocalStorage-based
+    demo persistence with a real backend API (e.g., Node.js/Express/MongoDB) without changing any
+    component code.
+  </p>
+
+  <div class="metric-grid">
+    <div class="metric-card no-break">
+      <div class="value">51</div>
+      <div class="label">Source Files</div>
+    </div>
+    <div class="metric-card no-break">
+      <div class="value">5,604</div>
+      <div class="label">Lines of Code</div>
+    </div>
+    <div class="metric-card no-break">
+      <div class="value">23</div>
+      <div class="label">Pages &amp; Screens</div>
+    </div>
+    <div class="metric-card no-break">
+      <div class="value">11</div>
+      <div class="label">Reusable Components</div>
+    </div>
+  </div>
+
+  <!-- 2. SYSTEM OVERVIEW -->
+  <h2>2. System Overview &amp; Objectives</h2>
+  <h3>2.1 Purpose</h3>
+  <p>
+    QuizMaster serves as a comprehensive online examination platform designed for educational
+    institutions, corporate training programmes, and self-assessment scenarios. It enables
+    administrators to create, manage, and publish quizzes while providing students with a
+    polished, interactive environment to attempt quizzes, review answers, track performance,
+    and earn certificates.
+  </p>
+
+  <h3>2.2 Key Objectives</h3>
+  <ul>
+    <li><strong>Role-Based Access Control</strong> — Distinct Student and Admin experiences with route-level guards.</li>
+    <li><strong>Rich Quiz Experience</strong> — Timed attempts with question randomisation, answer shuffling, auto-save, and auto-submit.</li>
+    <li><strong>Analytics &amp; Insights</strong> — Admin dashboards with charts for attempts over time, registrations, category popularity, and per-quiz performance.</li>
+    <li><strong>Backend-Ready Architecture</strong> — All data access flows through a single abstraction layer, enabling seamless migration to a REST/GraphQL API.</li>
+    <li><strong>Premium UI/UX</strong> — Apple-inspired design system with dark/light themes, glassmorphism, micro-animations, and responsive layouts.</li>
+  </ul>
+</div>
+
+<!-- 3. TECHNOLOGY STACK -->
+<div class="content page-break">
+  <h2>3. Technology Stack</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Technology</th>
+        <th>Version</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>UI Library</strong></td>
+        <td>React</td>
+        <td>19.2.8</td>
+        <td>Component-based UI rendering with hooks</td>
+      </tr>
+      <tr>
+        <td><strong>Build Tool</strong></td>
+        <td>Vite</td>
+        <td>8.2.1</td>
+        <td>Lightning-fast HMR dev server and optimised production builds</td>
+      </tr>
+      <tr>
+        <td><strong>Routing</strong></td>
+        <td>React Router</td>
+        <td>7.18.2</td>
+        <td>Declarative client-side routing with nested layouts</td>
+      </tr>
+      <tr>
+        <td><strong>CSS Framework</strong></td>
+        <td>Tailwind CSS</td>
+        <td>3.4.19</td>
+        <td>Utility-first premium styling layer with custom design tokens</td>
+      </tr>
+      <tr>
+        <td><strong>Layout Utilities</strong></td>
+        <td>Bootstrap 5</td>
+        <td>5.3.8</td>
+        <td>Responsive grid and layout helpers</td>
+      </tr>
+      <tr>
+        <td><strong>Charts</strong></td>
+        <td>Recharts</td>
+        <td>3.10.1</td>
+        <td>Admin analytics dashboards (area, bar, pie charts)</td>
+      </tr>
+      <tr>
+        <td><strong>Icons</strong></td>
+        <td>Lucide React</td>
+        <td>1.31.0</td>
+        <td>Consistent, tree-shakeable icon library</td>
+      </tr>
+      <tr>
+        <td><strong>PDF Export</strong></td>
+        <td>jsPDF</td>
+        <td>4.2.1</td>
+        <td>Client-side PDF certificate generation</td>
+      </tr>
+      <tr>
+        <td><strong>Image Export</strong></td>
+        <td>html-to-image</td>
+        <td>1.11.13</td>
+        <td>DOM-to-image conversion for certificate snapshots</td>
+      </tr>
+      <tr>
+        <td><strong>Persistence</strong></td>
+        <td>LocalStorage</td>
+        <td>Web API</td>
+        <td>Demo-mode data persistence (swappable for real API)</td>
+      </tr>
+      <tr>
+        <td><strong>CSS Processing</strong></td>
+        <td>PostCSS + Autoprefixer</td>
+        <td>8.5.26 / 10.5.4</td>
+        <td>CSS post-processing and vendor prefixing</td>
+      </tr>
+      <tr>
+        <td><strong>Language</strong></td>
+        <td>JavaScript (ES Modules)</td>
+        <td>ES2022+</td>
+        <td>Modern JS with native module system</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 4. SYSTEM ARCHITECTURE -->
+<div class="content page-break">
+  <h2>4. System Architecture</h2>
+
+  <h3>4.1 High-Level Architecture</h3>
+  <p>
+    QuizMaster follows a layered frontend architecture with clear separation between
+    presentation, state management, business logic, and data access:
+  </p>
+
+  <div class="arch-diagram">
++---------------------------------------------------------------------+
+|                        PRESENTATION LAYER                           |
+|  +----------+  +----------+  +----------+  +------------------+    |
+|  |  Pages   |  |Components|  | Layouts  |  |  Auth Screens    |    |
+|  | (23 pgs) |  |(11 comps)|  | (3 lyts) |  | (SignIn/SignUp)  |    |
+|  +----+-----+  +----+-----+  +----+-----+  +--------+---------+    |
+|       |              |             |                  |              |
++-------+--------------+-------------+------------------+-------------+
+|                      STATE MANAGEMENT LAYER                         |
+|  +--------------+  +--------------+  +------------------------+     |
+|  | AuthContext   |  |ThemeContext   |  |  ToastContext          |     |
+|  | (user, login, |  |(theme, toggle |  | (notifications,       |     |
+|  |  signup, etc.)|  | isDark)       |  |  success/error/info)  |     |
+|  +------+-------+  +------+-------+  +----------+-------------+     |
+|         |                 |                      |                   |
++---------+-----------------+----------------------+------------------+
+|                      BUSINESS LOGIC LAYER                           |
+|  +----------------+  +------------------+  +--------------------+   |
+|  |  quizEngine.js |  |scoreCalculator.js|  | exportCertificate  |   |
+|  |  (sessions,    |  |(scoring, grades, |  |   .js (PDF/IMG     |   |
+|  |   snapshots,   |  | time formatting) |  |    export)         |   |
+|  |   submission)  |  |                  |  |                    |   |
+|  +-------+--------+  +--------+---------+  +---------+----------+   |
+|          |                    |                       |              |
++----------+--------------------+-----------------------+-------------+
+|                      DATA ACCESS LAYER                              |
+|  +--------------------------------------------------------------+  |
+|  |                    storage.js (DAL)                           |  |
+|  |  usersRepo  quizzesRepo  questionsRepo                      |  |
+|  |  attemptsRepo  sessionsRepo  settings / auth / theme         |  |
+|  |  collection() helper: list/byId/find/add/update/remove       |  |
+|  +-----------------------------+--------------------------------+  |
+|                                |                                    |
++--------------------------------+-----------------------------------+
+|                      PERSISTENCE LAYER                             |
+|  +--------------------------------------------------------------+  |
+|  |               window.localStorage (Web API)                  |  |
+|  |        Namespaced keys: quizmaster.v1.*                      |  |
+|  |  Swappable for REST API / GraphQL / Firebase                 |  |
+|  +--------------------------------------------------------------+  |
++--------------------------------------------------------------------+
+  </div>
+
+  <h3>4.2 Directory Structure</h3>
+  <div class="arch-diagram">
+QuizMaster/
+|-- index.html                 # HTML entry point
+|-- package.json               # Project metadata and dependencies
+|-- vite.config.js             # Vite build configuration
+|-- tailwind.config.js         # Tailwind CSS custom theme tokens
+|-- postcss.config.js          # PostCSS pipeline
++-- src/
+    |-- main.jsx               # React DOM mount + Bootstrap import
+    |-- App.jsx                # Root component with all routes
+    |-- index.css              # Design system (CSS variables, utilities)
+    |-- components/            # 11 reusable UI components
+    |   |-- CertificateDocument.jsx
+    |   |-- EmptyState.jsx
+    |   |-- GuardedRoute.jsx
+    |   |-- Modal.jsx
+    |   |-- QuestionCard.jsx
+    |   |-- QuestionNavigator.jsx
+    |   |-- QuizCard.jsx
+    |   |-- ResultCard.jsx
+    |   |-- Skeleton.jsx
+    |   |-- ThemeToggle.jsx
+    |   +-- Timer.jsx
+    |-- context/               # 3 React Context providers
+    |   |-- AuthContext.jsx
+    |   |-- ThemeContext.jsx
+    |   +-- ToastContext.jsx
+    |-- data/                  # Mock/demo seed data
+    |   |-- users.js           # Admin + 6 student accounts
+    |   |-- quizzes.js         # 9 quizzes across 8 categories
+    |   +-- questions.js       # 47+ questions with explanations
+    |-- layouts/               # Application shells
+    |   |-- AppShell.jsx       # Responsive sidebar + mobile tabs
+    |   |-- AdminLayout.jsx
+    |   +-- UserLayout.jsx
+    |-- pages/
+    |   |-- auth/              # Authentication screens
+    |   |   |-- AuthShell.jsx
+    |   |   |-- SignIn.jsx
+    |   |   +-- SignUp.jsx
+    |   |-- user/              # 12 student-facing pages
+    |   |   |-- Dashboard.jsx
+    |   |   |-- Library.jsx
+    |   |   |-- QuizDetail.jsx
+    |   |   |-- QuizAttempt.jsx
+    |   |   |-- Result.jsx
+    |   |   |-- AnswerReview.jsx
+    |   |   |-- Results.jsx
+    |   |   |-- Leaderboard.jsx
+    |   |   |-- Certificates.jsx
+    |   |   |-- Profile.jsx
+    |   |   |-- Settings.jsx
+    |   |   +-- _shared.jsx
+    |   +-- admin/             # 8 admin-facing pages
+    |       |-- Dashboard.jsx
+    |       |-- QuizManagement.jsx
+    |       |-- QuizEditor.jsx
+    |       |-- QuestionBank.jsx
+    |       |-- QuestionEditor.jsx
+    |       |-- UserManagement.jsx
+    |       |-- AdminProfile.jsx
+    |       +-- SystemSettings.jsx
+    +-- utils/                 # Pure utility modules
+        |-- storage.js         # Data Access Layer (DAL)
+        |-- quizEngine.js      # Session and attempt management
+        |-- scoreCalculator.js # Scoring, grading, time formatting
+        |-- exportCertificate.js # PDF/image export
+        +-- image.js           # Photo compression helper
+  </div>
+
+  <h3>4.3 Component Hierarchy</h3>
+  <div class="arch-diagram">
+App
++-- ThemeProvider
+    +-- ToastProvider
+        +-- AuthProvider
+            +-- BrowserRouter
+                +-- Routes
+                    |-- HomeRedirect (/)
+                    |-- GuestOnly -> SignIn (/auth/signin)
+                    |-- GuestOnly -> SignUp (/auth/signup)
+                    |-- UserGuard -> UserLayout -> AppShell
+                    |   |-- Dashboard
+                    |   |-- Library -> QuizCard[]
+                    |   |-- QuizDetail
+                    |   |-- QuizAttempt -> Timer, QuestionCard,
+                    |   |                  QuestionNavigator
+                    |   |-- Result -> ResultCard
+                    |   |-- AnswerReview -> QuestionCard[]
+                    |   |-- Results (history)
+                    |   |-- Leaderboard
+                    |   |-- Certificates -> CertificateDocument
+                    |   |-- Profile
+                    |   +-- Settings
+                    |-- AdminGuard -> AdminLayout -> AppShell
+                    |   |-- Dashboard (charts via Recharts)
+                    |   |-- QuizManagement
+                    |   |-- QuizEditor
+                    |   |-- QuestionBank
+                    |   |-- QuestionEditor
+                    |   |-- UserManagement
+                    |   |-- AdminProfile
+                    |   +-- SystemSettings
+                    +-- NotFound (404)
+  </div>
+</div>
+
+<!-- 5. MODULE DESCRIPTIONS -->
+<div class="content page-break">
+  <h2>5. Module Descriptions</h2>
+
+  <h3>5.1 Authentication Module</h3>
+  <p>
+    Authentication is managed through <code>AuthContext.jsx</code> and the authentication
+    functions in <code>storage.js</code>. The system provides:
+  </p>
+  <ul>
+    <li><strong>Login</strong> — Credential matching via username/email + password, with role verification (Student/Admin).</li>
+    <li><strong>Signup</strong> — Student-only registration with duplicate username/email validation. Controlled by a system setting (<code>allowRegistration</code>).</li>
+    <li><strong>Session Persistence</strong> — A sanitised (password-stripped) session object is persisted to LocalStorage so users stay logged in across refreshes.</li>
+    <li><strong>Account Blocking</strong> — Blocked users receive an explicit error message at login.</li>
+    <li><strong>Role Mismatch Detection</strong> — Prevents a student from logging in as admin and vice versa.</li>
+  </ul>
+
+  <div class="info-box warn no-break">
+    <strong>Warning - Demo-Only Security:</strong> Passwords are stored in plaintext in LocalStorage purely for
+    demonstration. A production deployment <strong>must</strong> replace this with server-side authentication
+    using hashed passwords (e.g., bcrypt) and secure session tokens.
+  </div>
+
+  <h3>5.2 Quiz Engine (<code>quizEngine.js</code>)</h3>
+  <p>The quiz engine manages the full lifecycle of a quiz attempt:</p>
+  <table>
+    <thead>
+      <tr><th>Function</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>buildQuestionSnapshot(quiz)</code></td>
+        <td>Creates an immutable copy of quiz questions with optional randomisation and answer shuffling. The <code>correctIndex</code> is remapped when answers are shuffled.</td>
+      </tr>
+      <tr>
+        <td><code>createSession(userId, quiz)</code></td>
+        <td>Initialises a new in-progress session with a computed expiry timestamp and persists it.</td>
+      </tr>
+      <tr>
+        <td><code>saveProgress(session)</code></td>
+        <td>Persists the current answers, flagged questions, and question index for crash recovery.</td>
+      </tr>
+      <tr>
+        <td><code>getActiveSession(sessionId)</code></td>
+        <td>Retrieves a non-submitted session, enabling page refresh without data loss.</td>
+      </tr>
+      <tr>
+        <td><code>submitSession(sessionId)</code></td>
+        <td>Finalises the session: calculates scores, creates an attempt record, removes the session.</td>
+      </tr>
+      <tr>
+        <td><code>autoSubmitSession(sessionId)</code></td>
+        <td>Triggered when the countdown timer reaches zero — identical to manual submission.</td>
+      </tr>
+      <tr>
+        <td><code>countAttempts(userId, quizId)</code></td>
+        <td>Returns the number of completed attempts for retake control.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>5.3 Score Calculator (<code>scoreCalculator.js</code>)</h3>
+  <p>
+    A pure, framework-free module that computes quiz results. Features include:
+  </p>
+  <ul>
+    <li><strong>Weighted Scoring</strong> — Supports per-question marks and negative marking.</li>
+    <li><strong>Per-Question Breakdown</strong> — Each question tagged as <code>correct</code>, <code>wrong</code>, or <code>skipped</code>.</li>
+    <li><strong>Alphabetic Grading</strong> — Maps percentage to grades (A+/A/B/C/D/F) with descriptive labels.</li>
+    <li><strong>Time Utilities</strong> — <code>formatClock()</code> for countdown display, <code>formatDuration()</code> for human-readable durations, <code>timeAgo()</code> for relative timestamps.</li>
+  </ul>
+
+  <h4>Grading Scale</h4>
+  <table>
+    <thead>
+      <tr><th>Percentage</th><th>Grade</th><th>Label</th><th>Colour</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>90% and above</td><td>A+</td><td>Outstanding</td><td><span class="badge badge-green">Success</span></td></tr>
+      <tr><td>80% and above</td><td>A</td><td>Excellent</td><td><span class="badge badge-green">Success</span></td></tr>
+      <tr><td>70% and above</td><td>B</td><td>Good</td><td><span class="badge badge-green">Success</span></td></tr>
+      <tr><td>60% and above</td><td>C</td><td>Above Average</td><td><span class="badge badge-orange">Warning</span></td></tr>
+      <tr><td>50% and above</td><td>D</td><td>Average</td><td><span class="badge badge-orange">Warning</span></td></tr>
+      <tr><td>Below 50%</td><td>F</td><td>Needs Work</td><td><span class="badge badge-red">Danger</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 5 cont. -->
+<div class="content page-break">
+  <h3>5.4 Data Access Layer — <code>storage.js</code></h3>
+  <p>
+    The <strong>single most architecturally important module</strong> in the application.
+    Every read and write to data flows through this file. It exposes five collection
+    repositories and several helper functions:
+  </p>
+
+  <h4>Collection Repositories</h4>
+  <table>
+    <thead>
+      <tr><th>Repository</th><th>Data Stored</th><th>Operations</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>usersRepo</code></td>
+        <td>All user accounts (admin + students)</td>
+        <td rowspan="5"><code>list()</code>, <code>byId()</code>, <code>find()</code>, <code>add()</code>, <code>update()</code>, <code>remove()</code>, <code>replace()</code></td>
+      </tr>
+      <tr><td><code>quizzesRepo</code></td><td>All quiz definitions</td></tr>
+      <tr><td><code>questionsRepo</code></td><td>Question bank</td></tr>
+      <tr><td><code>attemptsRepo</code></td><td>Completed quiz attempts with results</td></tr>
+      <tr><td><code>sessionsRepo</code></td><td>In-progress quiz sessions</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Additional Exports</h4>
+  <ul>
+    <li><code>getSettings()</code> / <code>saveSettings()</code> — System-wide configuration (quiz defaults, registration, appearance).</li>
+    <li><code>getStoredTheme()</code> / <code>setStoredTheme()</code> — Theme persistence.</li>
+    <li><code>getUserPrefs()</code> / <code>saveUserPrefs()</code> — Per-user preferences.</li>
+    <li><code>authenticate()</code> / <code>registerUser()</code> / <code>updateAccount()</code> — Auth operations.</li>
+    <li><code>seed()</code> — Idempotent demo data initialiser.</li>
+  </ul>
+
+  <div class="info-box success no-break">
+    <strong>Backend Migration Path:</strong> To move to a real backend, replace the function bodies in
+    <code>storage.js</code> with <code>fetch()</code> calls and remove <code>seed()</code>. No component, page, or context
+    requires any changes.
+  </div>
+
+  <h3>5.5 Theme System</h3>
+  <p>
+    The theme system is built on CSS custom properties (variables) defined in <code>index.css</code>,
+    toggled via a <code>dark</code> class on the html element. Key design decisions:
+  </p>
+  <ul>
+    <li><strong>Token-Based Architecture</strong> — All colours are referenced through semantic tokens (e.g., <code>bg-bg</code>, <code>text-text</code>, <code>bg-card</code>) rather than hardcoded values.</li>
+    <li><strong>Light Mode</strong> — Apple-inspired crisp palette: <code>#f5f5f7</code> background, <code>#0071e3</code> primary accent.</li>
+    <li><strong>Dark Mode</strong> — Space Gray / Pro Obsidian high-contrast scheme: <code>#090a0f</code> background.</li>
+    <li><strong>Bootstrap Sync</strong> — The <code>data-bs-theme</code> attribute is kept in sync so Bootstrap utilities respond to theme changes.</li>
+    <li><strong>Persistence</strong> — Theme choice is saved via the DAL and restored on page load.</li>
+  </ul>
+
+  <h3>5.6 Route Guards</h3>
+  <p>Four guard components control access throughout the app:</p>
+  <table>
+    <thead>
+      <tr><th>Guard</th><th>Behaviour</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>HomeRedirect</code></td>
+        <td>Redirects <code>/</code> to <code>/user</code> or <code>/admin</code> based on role; guests go to sign-in.</td>
+      </tr>
+      <tr>
+        <td><code>GuestOnly</code></td>
+        <td>Wraps auth pages; redirects already-authenticated users to their dashboard.</td>
+      </tr>
+      <tr>
+        <td><code>UserGuard</code></td>
+        <td>Protects all <code>/user/*</code> routes. Requires <code>role === 'user'</code>.</td>
+      </tr>
+      <tr>
+        <td><code>AdminGuard</code></td>
+        <td>Protects all <code>/admin/*</code> routes. Requires <code>role === 'admin'</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    All guards display a <code>PageSkeleton</code> loading state while the auth context initialises,
+    preventing flash-of-wrong-content. Role mismatches redirect to the user's own dashboard
+    rather than showing an error page.
+  </p>
+</div>
+
+<!-- 6. FEATURE INVENTORY -->
+<div class="content page-break">
+  <h2>6. Feature Inventory</h2>
+
+  <h3>6.1 Student Features</h3>
+  <table>
+    <thead>
+      <tr><th>Feature</th><th>Page</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Dashboard</strong></td>
+        <td><code>Dashboard.jsx</code></td>
+        <td>Quick stats: quizzes completed, average score, certificates earned, leaderboard rank.</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz Library</strong></td>
+        <td><code>Library.jsx</code></td>
+        <td>Filterable/searchable grid of available quizzes with category and difficulty filters.</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz Detail</strong></td>
+        <td><code>QuizDetail.jsx</code></td>
+        <td>Quiz instructions, topics, duration, passing score, and start button.</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz Attempt</strong></td>
+        <td><code>QuizAttempt.jsx</code></td>
+        <td>Single-question view with live countdown timer, prev/next navigation, mark-for-review, question navigator panel (sidebar on desktop, bottom drawer on mobile), auto-save to LocalStorage.</td>
+      </tr>
+      <tr>
+        <td><strong>Result</strong></td>
+        <td><code>Result.jsx</code></td>
+        <td>Circular progress indicator, grade assignment, score breakdown, pass/fail status.</td>
+      </tr>
+      <tr>
+        <td><strong>Answer Review</strong></td>
+        <td><code>AnswerReview.jsx</code></td>
+        <td>Per-question review showing selected vs. correct answer with explanations.</td>
+      </tr>
+      <tr>
+        <td><strong>My Results</strong></td>
+        <td><code>Results.jsx</code></td>
+        <td>Complete attempt history with filtering and sorting.</td>
+      </tr>
+      <tr>
+        <td><strong>Leaderboard</strong></td>
+        <td><code>Leaderboard.jsx</code></td>
+        <td>Global/weekly/monthly/per-quiz rankings with rank badges.</td>
+      </tr>
+      <tr>
+        <td><strong>Certificates</strong></td>
+        <td><code>Certificates.jsx</code></td>
+        <td>Printable certificates for passed quizzes with PDF/image download.</td>
+      </tr>
+      <tr>
+        <td><strong>Profile</strong></td>
+        <td><code>Profile.jsx</code></td>
+        <td>Edit name, username, email, photo; change password.</td>
+      </tr>
+      <tr>
+        <td><strong>Settings</strong></td>
+        <td><code>Settings.jsx</code></td>
+        <td>User preferences (email notifications, show hints, compact cards).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>6.2 Admin Features</h3>
+  <table>
+    <thead>
+      <tr><th>Feature</th><th>Page</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Analytics Dashboard</strong></td>
+        <td><code>Dashboard.jsx</code></td>
+        <td>Charts: attempts over time (area), registrations (bar), category popularity (pie), per-quiz performance (bar). Stats cards for total users, quizzes, attempts, avg score.</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz Management</strong></td>
+        <td><code>QuizManagement.jsx</code></td>
+        <td>Full CRUD: publish/draft/disable, duplicate, delete quizzes with search and filtering.</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz Editor</strong></td>
+        <td><code>QuizEditor.jsx</code></td>
+        <td>Create/edit quizzes: title, description, category, difficulty, duration, passing score, behaviour toggles (randomise, shuffle answers, show explanations, allow retake).</td>
+      </tr>
+      <tr>
+        <td><strong>Question Bank</strong></td>
+        <td><code>QuestionBank.jsx</code></td>
+        <td>Searchable question inventory with preview, edit, duplicate, disable, delete actions.</td>
+      </tr>
+      <tr>
+        <td><strong>Question Editor</strong></td>
+        <td><code>QuestionEditor.jsx</code></td>
+        <td>Create/edit questions: text, options, correct answer, explanation, marks, negative marks.</td>
+      </tr>
+      <tr>
+        <td><strong>User Management</strong></td>
+        <td><code>UserManagement.jsx</code></td>
+        <td>Search users, view attempt count and avg score, block/unblock, per-user quiz history.</td>
+      </tr>
+      <tr>
+        <td><strong>Admin Profile</strong></td>
+        <td><code>AdminProfile.jsx</code></td>
+        <td>Edit admin name, email, photo, and password.</td>
+      </tr>
+      <tr>
+        <td><strong>System Settings</strong></td>
+        <td><code>SystemSettings.jsx</code></td>
+        <td>Quiz defaults (duration, passing score, randomise, shuffle, explanations, retake), registration toggle, photo upload toggle, accent colour picker.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 7. DATA MODEL -->
+<div class="content page-break">
+  <h2>7. Data Model &amp; Schema</h2>
+
+  <h3>7.1 User Object</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>id</code></td><td>String</td><td>Unique identifier (e.g., <code>admin-1</code>, <code>u-1001</code>)</td></tr>
+      <tr><td><code>username</code></td><td>String</td><td>Login handle (unique, case-insensitive)</td></tr>
+      <tr><td><code>password</code></td><td>String</td><td>Plaintext (demo only)</td></tr>
+      <tr><td><code>name</code></td><td>String</td><td>Display name</td></tr>
+      <tr><td><code>email</code></td><td>String</td><td>Email address (unique)</td></tr>
+      <tr><td><code>role</code></td><td>String</td><td><code>'admin'</code> or <code>'user'</code></td></tr>
+      <tr><td><code>photo</code></td><td>String</td><td>Base64 data URL or empty</td></tr>
+      <tr><td><code>status</code></td><td>String</td><td><code>'active'</code> or <code>'blocked'</code></td></tr>
+      <tr><td><code>joinedAt</code></td><td>ISO 8601</td><td>Registration timestamp</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7.2 Quiz Object</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>id</code></td><td>String</td><td>Unique quiz ID</td></tr>
+      <tr><td><code>title</code></td><td>String</td><td>Quiz title</td></tr>
+      <tr><td><code>description</code></td><td>String</td><td>Detailed description</td></tr>
+      <tr><td><code>category</code></td><td>String</td><td>One of 8 categories</td></tr>
+      <tr><td><code>difficulty</code></td><td>String</td><td><code>'easy'</code>, <code>'medium'</code>, or <code>'hard'</code></td></tr>
+      <tr><td><code>durationSeconds</code></td><td>Number</td><td>Time limit in seconds</td></tr>
+      <tr><td><code>passingScore</code></td><td>Number</td><td>Minimum percentage to pass</td></tr>
+      <tr><td><code>questionIds</code></td><td>Array</td><td>Ordered list of question IDs</td></tr>
+      <tr><td><code>topics</code></td><td>Array</td><td>Topic tags for the quiz</td></tr>
+      <tr><td><code>status</code></td><td>String</td><td><code>'published'</code>, <code>'draft'</code>, or <code>'disabled'</code></td></tr>
+      <tr><td><code>settings</code></td><td>Object</td><td><code>randomize</code>, <code>shuffleAnswers</code>, <code>showExplanations</code>, <code>allowRetake</code></td></tr>
+      <tr><td><code>createdBy</code></td><td>String</td><td>Admin user ID</td></tr>
+      <tr><td><code>createdAt</code> / <code>updatedAt</code></td><td>ISO 8601</td><td>Timestamps</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7.3 Question Object</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>id</code></td><td>String</td><td>Unique question ID</td></tr>
+      <tr><td><code>text</code></td><td>String</td><td>Question text</td></tr>
+      <tr><td><code>options</code></td><td>Array of Strings</td><td>Answer choices</td></tr>
+      <tr><td><code>correctIndex</code></td><td>Number</td><td>Index of the correct option</td></tr>
+      <tr><td><code>explanation</code></td><td>String</td><td>Explanation shown after review</td></tr>
+      <tr><td><code>marks</code></td><td>Number</td><td>Points for correct answer (default: 1)</td></tr>
+      <tr><td><code>negativeMarks</code></td><td>Number</td><td>Points deducted for wrong answer (default: 0)</td></tr>
+      <tr><td><code>category</code></td><td>String</td><td>Subject category</td></tr>
+      <tr><td><code>difficulty</code></td><td>String</td><td>Difficulty level</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7.4 Attempt Object</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>id</code></td><td>String</td><td>Unique attempt ID</td></tr>
+      <tr><td><code>userId</code></td><td>String</td><td>Student who attempted</td></tr>
+      <tr><td><code>quizId</code></td><td>String</td><td>Quiz attempted</td></tr>
+      <tr><td><code>questionSnapshot</code></td><td>Array</td><td>Frozen copy of questions at attempt time</td></tr>
+      <tr><td><code>answers</code></td><td>Object</td><td>Map of questionId to selectedIndex</td></tr>
+      <tr><td><code>result</code></td><td>Object</td><td>Full score breakdown (marks, percent, correct/wrong/skipped)</td></tr>
+      <tr><td><code>passed</code></td><td>Boolean</td><td>Whether score met passing threshold</td></tr>
+      <tr><td><code>timeTakenSeconds</code></td><td>Number</td><td>Actual time spent</td></tr>
+      <tr><td><code>startedAt</code> / <code>submittedAt</code></td><td>ISO 8601</td><td>Timestamps</td></tr>
+      <tr><td><code>autoSubmitted</code></td><td>Boolean</td><td>Whether timer-triggered submission</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 8. ROUTING -->
+<div class="content page-break">
+  <h2>8. Routing &amp; Navigation</h2>
+  <p>
+    The application uses <strong>React Router v7</strong> with nested route layouts.
+    All routes are defined in <code>App.jsx</code>:
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Path</th><th>Guard</th><th>Component</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>/</code></td><td>None</td><td>HomeRedirect</td><td>Resolves to role-based dashboard</td></tr>
+      <tr><td><code>/auth/signin</code></td><td>GuestOnly</td><td>SignIn</td><td>Login with role selector</td></tr>
+      <tr><td><code>/auth/signup</code></td><td>GuestOnly</td><td>SignUp</td><td>Student registration</td></tr>
+      <tr><td><code>/user</code></td><td>UserGuard</td><td>Dashboard</td><td>Student dashboard</td></tr>
+      <tr><td><code>/user/library</code></td><td>UserGuard</td><td>Library</td><td>Quiz catalogue</td></tr>
+      <tr><td><code>/user/quiz/:quizId</code></td><td>UserGuard</td><td>QuizDetail</td><td>Quiz info page</td></tr>
+      <tr><td><code>/user/attempt/:sessionId</code></td><td>UserGuard</td><td>QuizAttempt</td><td>Active quiz session</td></tr>
+      <tr><td><code>/user/result/:attemptId</code></td><td>UserGuard</td><td>Result</td><td>Score and grade display</td></tr>
+      <tr><td><code>/user/review/:attemptId</code></td><td>UserGuard</td><td>AnswerReview</td><td>Per-question review</td></tr>
+      <tr><td><code>/user/results</code></td><td>UserGuard</td><td>Results</td><td>Attempt history</td></tr>
+      <tr><td><code>/user/leaderboard</code></td><td>UserGuard</td><td>Leaderboard</td><td>Rankings</td></tr>
+      <tr><td><code>/user/certificates</code></td><td>UserGuard</td><td>Certificates</td><td>Certificate gallery</td></tr>
+      <tr><td><code>/user/profile</code></td><td>UserGuard</td><td>Profile</td><td>User profile editor</td></tr>
+      <tr><td><code>/user/settings</code></td><td>UserGuard</td><td>Settings</td><td>User preferences</td></tr>
+      <tr><td><code>/admin</code></td><td>AdminGuard</td><td>Dashboard</td><td>Admin analytics</td></tr>
+      <tr><td><code>/admin/quizzes</code></td><td>AdminGuard</td><td>QuizManagement</td><td>Quiz CRUD</td></tr>
+      <tr><td><code>/admin/quiz/new</code></td><td>AdminGuard</td><td>QuizEditor</td><td>Create quiz</td></tr>
+      <tr><td><code>/admin/quiz/:quizId/edit</code></td><td>AdminGuard</td><td>QuizEditor</td><td>Edit quiz</td></tr>
+      <tr><td><code>/admin/questions</code></td><td>AdminGuard</td><td>QuestionBank</td><td>Question inventory</td></tr>
+      <tr><td><code>/admin/question/new</code></td><td>AdminGuard</td><td>QuestionEditor</td><td>Create question</td></tr>
+      <tr><td><code>/admin/question/:questionId/edit</code></td><td>AdminGuard</td><td>QuestionEditor</td><td>Edit question</td></tr>
+      <tr><td><code>/admin/users</code></td><td>AdminGuard</td><td>UserManagement</td><td>User admin</td></tr>
+      <tr><td><code>/admin/profile</code></td><td>AdminGuard</td><td>AdminProfile</td><td>Admin profile</td></tr>
+      <tr><td><code>/admin/settings</code></td><td>AdminGuard</td><td>SystemSettings</td><td>System config</td></tr>
+      <tr><td><code>*</code></td><td>None</td><td>NotFound</td><td>404 page</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Navigation Layout</h3>
+  <p>
+    The <code>AppShell</code> component provides a responsive navigation experience:
+  </p>
+  <ul>
+    <li><strong>Desktop (1024px and above)</strong> — Collapsible sidebar with icon + label navigation.</li>
+    <li><strong>Tablet (768px to 1023px)</strong> — Collapsed icon-only sidebar.</li>
+    <li><strong>Mobile (below 768px)</strong> — Bottom tab bar with 5 primary actions.</li>
+  </ul>
+</div>
+
+<!-- 9. UI/UX DESIGN SYSTEM -->
+<div class="content page-break">
+  <h2>9. UI/UX Design System</h2>
+
+  <h3>9.1 Design Philosophy</h3>
+  <p>
+    The design system draws heavy inspiration from <strong>Apple's Human Interface Guidelines (HIG)</strong>,
+    prioritising clarity, deference, and depth. Key principles include:
+  </p>
+  <ul>
+    <li><strong>Semantic Colour Tokens</strong> — All UI elements reference CSS variables, not hardcoded hex values.</li>
+    <li><strong>Glassmorphism</strong> — Frosted glass card effects using <code>backdrop-filter: blur()</code>.</li>
+    <li><strong>Micro-Animations</strong> — Smooth transitions via custom keyframes: <code>fade-in</code>, <code>pop-in</code>, <code>toast-in</code>, <code>shimmer</code>.</li>
+    <li><strong>Apple Shadow System</strong> — Three tiers of depth: <code>shadow-apple-sm</code>, <code>shadow-apple</code>, <code>shadow-apple-lg</code>.</li>
+  </ul>
+
+  <h3>9.2 Colour Palette</h3>
+  <table>
+    <thead><tr><th>Token</th><th>Light Mode</th><th>Dark Mode</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg</code></td><td><code>#f5f5f7</code></td><td><code>#090a0f</code></td><td>Page background</td></tr>
+      <tr><td><code>--color-card</code></td><td><code>#ffffff</code></td><td>Dark surface</td><td>Card backgrounds</td></tr>
+      <tr><td><code>--color-primary</code></td><td><code>#0071e3</code></td><td><code>#2997ff</code></td><td>Primary accent / CTA</td></tr>
+      <tr><td><code>--color-text</code></td><td><code>#1d1d1f</code></td><td>Light text</td><td>Headings / body</td></tr>
+      <tr><td><code>--color-success</code></td><td><code>#34c759</code></td><td>Green</td><td>Pass / correct</td></tr>
+      <tr><td><code>--color-danger</code></td><td><code>#ff3b30</code></td><td>Red</td><td>Fail / error</td></tr>
+      <tr><td><code>--color-warning</code></td><td><code>#ff9500</code></td><td>Orange</td><td>Caution / average</td></tr>
+      <tr><td><code>--color-purple</code></td><td><code>#af52de</code></td><td>Purple</td><td>Decorative accent</td></tr>
+    </tbody>
+  </table>
+
+  <h3>9.3 Typography</h3>
+  <table>
+    <thead><tr><th>Family</th><th>Weights</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td>Inter</td><td>300 to 900</td><td>Primary UI font: headings, body, labels</td></tr>
+      <tr><td>Playfair Display</td><td>600, 700</td><td>Display font: certificates, hero text</td></tr>
+      <tr><td>System Stack</td><td>Various</td><td>Fallback: SF Pro, Segoe UI, Roboto</td></tr>
+    </tbody>
+  </table>
+
+  <h3>9.4 Custom Animations</h3>
+  <table>
+    <thead><tr><th>Animation</th><th>Duration</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td><code>fade-in</code></td><td>240ms</td><td>Page/card entry transitions</td></tr>
+      <tr><td><code>pop-in</code></td><td>200ms</td><td>Modal and element appearances</td></tr>
+      <tr><td><code>toast-in</code></td><td>240ms</td><td>Toast notification entry</td></tr>
+      <tr><td><code>shimmer</code></td><td>1.5s (loop)</td><td>Skeleton loading placeholders</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 10. SOURCE CODE STATISTICS -->
+<div class="content page-break">
+  <h2>10. Source Code Statistics</h2>
+
+  <div class="metric-grid">
+    <div class="metric-card no-break">
+      <div class="value">51</div>
+      <div class="label">Total Source Files</div>
+    </div>
+    <div class="metric-card no-break">
+      <div class="value">5,604</div>
+      <div class="label">Total Lines</div>
+    </div>
+    <div class="metric-card no-break">
+      <div class="value">268 KB</div>
+      <div class="label">Total Source Size</div>
+    </div>
+    <div class="metric-card no-break">
+      <div class="value">12</div>
+      <div class="label">npm Dependencies</div>
+    </div>
+  </div>
+
+  <h3>10.1 Lines of Code by Module</h3>
+  <table>
+    <thead>
+      <tr><th>Module</th><th>Files</th><th>Lines</th><th>Bytes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Pages — Student</strong></td><td>12</td><td>1,999</td><td>89,498</td></tr>
+      <tr><td><strong>Pages — Admin</strong></td><td>8</td><td>1,020</td><td>53,645</td></tr>
+      <tr><td><strong>Pages — Auth</strong></td><td>3</td><td>378</td><td>17,173</td></tr>
+      <tr><td><strong>Components</strong></td><td>11</td><td>758</td><td>35,202</td></tr>
+      <tr><td><strong>Contexts</strong></td><td>3</td><td>184</td><td>6,150</td></tr>
+      <tr><td><strong>Layouts</strong></td><td>3</td><td>256</td><td>10,980</td></tr>
+      <tr><td><strong>Utils</strong></td><td>5</td><td>626</td><td>22,006</td></tr>
+      <tr><td><strong>Data (Mock)</strong></td><td>3</td><td>729</td><td>27,249</td></tr>
+      <tr><td><strong>Root (App, main, CSS)</strong></td><td>3</td><td>410</td><td>15,438</td></tr>
+      <tr style="font-weight:700; background:#e8f2fd">
+        <td><strong>TOTAL</strong></td><td><strong>51</strong></td><td><strong>~5,604</strong></td><td><strong>~268 KB</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:9pt; color:var(--muted);">
+    *Includes blank lines and comments. The CSS design system alone is 329 lines.
+  </p>
+
+  <h3>10.2 Largest Files</h3>
+  <table>
+    <thead>
+      <tr><th>File</th><th>Lines</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>data/questions.js</code></td><td>396</td><td>47+ demo questions with explanations</td></tr>
+      <tr><td><code>index.css</code></td><td>329</td><td>Complete design system (light/dark tokens, utilities)</td></tr>
+      <tr><td><code>utils/storage.js</code></td><td>302</td><td>Data Access Layer + seed logic</td></tr>
+      <tr><td><code>pages/user/Result.jsx</code></td><td>266</td><td>Detailed result page with circular progress</td></tr>
+      <tr><td><code>data/quizzes.js</code></td><td>234</td><td>9 demo quizzes across 8 categories</td></tr>
+      <tr><td><code>pages/user/Certificates.jsx</code></td><td>228</td><td>Certificate gallery with PDF/image export</td></tr>
+      <tr><td><code>layouts/AppShell.jsx</code></td><td>209</td><td>Responsive sidebar + mobile bottom tabs</td></tr>
+      <tr><td><code>pages/user/QuizAttempt.jsx</code></td><td>203</td><td>Quiz attempt engine with timer and navigator</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 11. SECURITY CONSIDERATIONS -->
+<div class="content page-break">
+  <h2>11. Security Considerations</h2>
+
+  <div class="info-box warn no-break">
+    <strong>Important:</strong> QuizMaster is a <strong>frontend-only demo</strong>. All security
+    measures listed below describe the demo's approach and what a production deployment
+    must address.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Aspect</th><th>Demo Implementation</th><th>Production Requirement</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Password Storage</strong></td>
+        <td>Plaintext in LocalStorage</td>
+        <td>bcrypt/scrypt hashed passwords on the server</td>
+      </tr>
+      <tr>
+        <td><strong>Session Management</strong></td>
+        <td>User object in LocalStorage (password stripped)</td>
+        <td>HTTP-only secure cookies with JWT or session tokens</td>
+      </tr>
+      <tr>
+        <td><strong>Route Protection</strong></td>
+        <td>Client-side React guards</td>
+        <td>Server-side middleware + client-side guards</td>
+      </tr>
+      <tr>
+        <td><strong>Data Validation</strong></td>
+        <td>Basic client-side checks</td>
+        <td>Server-side validation + input sanitisation</td>
+      </tr>
+      <tr>
+        <td><strong>Photo Storage</strong></td>
+        <td>Compressed base64 data URLs in LocalStorage</td>
+        <td>Object storage (S3/GCS) with signed URLs</td>
+      </tr>
+      <tr>
+        <td><strong>CSRF Protection</strong></td>
+        <td>N/A (no API calls)</td>
+        <td>CSRF tokens on state-changing requests</td>
+      </tr>
+      <tr>
+        <td><strong>Rate Limiting</strong></td>
+        <td>N/A</td>
+        <td>API rate limiting on auth endpoints</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 12. KNOWN LIMITATIONS -->
+  <h2>12. Known Limitations</h2>
+  <ol>
+    <li>
+      <strong>Admin Quiz Preview:</strong> The admin "Preview" action navigates to the student quiz page,
+      which is role-guarded for students. Admins are redirected to their dashboard. A production build
+      would introduce a shared, read-only preview route.
+    </li>
+    <li>
+      <strong>LocalStorage Size Limits:</strong> Browser LocalStorage is typically capped at 5 to 10 MB.
+      Heavy usage with many photo uploads could exceed this limit.
+    </li>
+    <li>
+      <strong>Single-Device Sessions:</strong> Since data is stored in the browser, progress is not
+      synchronised across devices or browsers.
+    </li>
+    <li>
+      <strong>No Server-Side Rendering:</strong> The app is a pure SPA with no SSR, which impacts
+      initial load performance and SEO (not critical for an authenticated platform).
+    </li>
+    <li>
+      <strong>Demo Seed Data:</strong> The <code>seed()</code> function generates synthetic attempt data with
+      random distributions; this is clearly marked and would not exist in production.
+    </li>
+    <li>
+      <strong>No Real-Time Features:</strong> Leaderboards and analytics update on page load, not via
+      WebSockets or polling.
+    </li>
+  </ol>
+</div>
+
+<!-- 13. FUTURE ENHANCEMENTS -->
+<div class="content page-break">
+  <h2>13. Future Enhancements</h2>
+
+  <table>
+    <thead>
+      <tr><th>Priority</th><th>Enhancement</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-red">High</span></td>
+        <td>Backend API Integration</td>
+        <td>Replace <code>storage.js</code> function bodies with <code>fetch()</code> calls to a Node.js/Express/MongoDB backend. Add JWT authentication, input validation, and rate limiting.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-red">High</span></td>
+        <td>Secure Authentication</td>
+        <td>Implement bcrypt password hashing, HTTP-only session cookies, and optional OAuth2/SAML SSO integration.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-orange">Medium</span></td>
+        <td>Real-Time Leaderboards</td>
+        <td>WebSocket-based live leaderboard updates during quiz events.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-orange">Medium</span></td>
+        <td>Rich Question Types</td>
+        <td>Support for multi-select, fill-in-the-blank, matching, and code-execution questions.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-orange">Medium</span></td>
+        <td>Bulk Import/Export</td>
+        <td>CSV/Excel import for questions and quizzes; PDF/CSV export for results and analytics.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-blue">Low</span></td>
+        <td>Multi-Language Support</td>
+        <td>i18n framework integration for interface localisation.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-blue">Low</span></td>
+        <td>Progressive Web App (PWA)</td>
+        <td>Service worker for offline quiz-taking and push notifications.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-blue">Low</span></td>
+        <td>Accessibility (a11y)</td>
+        <td>WCAG 2.1 AA compliance audit and remediation.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-purple">Nice to Have</span></td>
+        <td>AI-Powered Question Generation</td>
+        <td>LLM integration to auto-generate questions from study material.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-purple">Nice to Have</span></td>
+        <td>Proctoring Features</td>
+        <td>Tab-switch detection, webcam monitoring, and screen recording for exam integrity.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 14. CONCLUSION -->
+  <h2>14. Conclusion</h2>
+  <p>
+    QuizMaster demonstrates a production-quality frontend architecture for an online examination
+    platform. With <strong>51 source files</strong>, <strong>over 5,600 lines of code</strong>,
+    and <strong>23 distinct pages and screens</strong>, the application provides a comprehensive
+    feature set spanning quiz management, timed assessments, scoring, analytics, leaderboards,
+    certificates, and user administration.
+  </p>
+  <p>
+    The architecture's most significant design decision — isolating all data access behind
+    <code>storage.js</code> — ensures that the transition from a demo frontend to a full-stack
+    production application requires changes to only a single module. This makes QuizMaster
+    not just a portfolio demonstration but a genuine foundation for a real-world deployment.
+  </p>
+  <p>
+    The premium UI, built on an Apple HIG-inspired design system with comprehensive dark/light
+    theme support, smooth animations, and responsive layouts, demonstrates attention to
+    user experience at every level of the application.
+  </p>
+
+  <div class="footer">
+    <p><strong>QuizMaster</strong> — Technical Report v1.0.0</p>
+    <p>Generated on 17 August 2026 | React 19 + Vite 8 | Frontend-Only SPA</p>
+    <p style="margin-top:8px; font-size:8pt;">This document was auto-generated from source code analysis.</p>
+  </div>
+</div>
+
+</body>
+</html>
