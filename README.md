@@ -27,31 +27,6 @@ It combines **online examinations, intelligent quiz generation, real-time analyt
 
 </div>
 
----
-
-# 🌐 Live Demo
-
-> Replace these URLs with your actual deployed application URLs.
-
-| Environment                 | URL                                         |
-| --------------------------- | ------------------------------------------- |
-| 🌐 Live Application         | `https://your-quizmaster-domain.com`        |
-| 🎨 Frontend                 | `https://your-quizmaster-domain.com`        |
-| ⚙️ Backend API              | `https://your-api-domain.com/api`           |
-| 📚 API Documentation        | `https://your-api-domain.com/api-docs`      |
-| 📜 Certificate Verification | `https://your-quizmaster-domain.com/verify` |
-| ❤️ Health Check             | `https://your-api-domain.com/api/health`    |
-
-### 🎥 Demo
-
-Add your project demonstration video here:
-
-```text
-https://www.youtube.com/watch?v=YOUR_VIDEO_ID
-```
-
----
-
 # 📸 Screenshots
 
 ## 🏠 Landing Page
