@@ -29,23 +29,29 @@ It combines **online examinations, intelligent quiz generation, real-time analyt
 
 # 📸 Screenshots
 
+All application screenshots are stored in the [`screenshots/`](./screenshots/) directory.
+
 ## 🏠 Landing Page
 
-![QuizMaster Landing Page](./landing-page.png)
+![QuizMaster Landing Page](./screenshots/landing-page.png)
 
 ---
 
 ## 🔐 Authentication
 
-![Login Page](./login.png)
+### Login
 
-![Registration Page](./register.png)
+![Login Page](./screenshots/login.png)
+
+### Registration
+
+![Registration Page](./screenshots/register.png)
 
 ---
 
 ## 👑 Admin Dashboard
 
-![Admin Dashboard](./admin-dashboard.png)
+![Admin Dashboard](./screenshots/admin-dashboard.png)
 
 The administrative dashboard provides:
 
@@ -67,7 +73,7 @@ The administrative dashboard provides:
 
 ## 📝 Quiz Management
 
-![Quiz Management](./quiz-management.png)
+![Quiz Management](./screenshots/quiz-management.png)
 
 Administrators can:
 
@@ -90,7 +96,7 @@ Administrators can:
 
 ## 🧠 Question Bank
 
-![Question Bank](./question-bank.png)
+![Question Bank](./screenshots/question-bank.png)
 
 Centralized question management supporting:
 
@@ -114,7 +120,7 @@ Centralized question management supporting:
 
 ## 🤖 AI Quiz Generator
 
-![AI Quiz Generator](./ai-generator.png)
+![AI Quiz Generator](./screenshots/ai-generator.png)
 
 Generate complete examinations using natural-language instructions.
 
@@ -143,7 +149,7 @@ Include:
 
 ## 🎯 Student Dashboard
 
-![Student Dashboard](./student-dashboard.png)
+![Student Dashboard](./screenshots/student-dashboard.png)
 
 Students can view:
 
@@ -163,7 +169,7 @@ Students can view:
 
 ## ⏱️ Examination Engine
 
-![Exam Interface](./exam-interface.png)
+![Exam Interface](./screenshots/exam-interface.png)
 
 The examination engine provides:
 
@@ -183,7 +189,7 @@ The examination engine provides:
 
 ## 📊 Examination Results
 
-![Results Dashboard](./results-dashboard.png)
+![Results Dashboard](./screenshots/results-dashboard.png)
 
 Students receive:
 
@@ -204,7 +210,7 @@ Students receive:
 
 ## 🏆 Leaderboard
 
-![Leaderboard](./leaderboard.png)
+![Leaderboard](./screenshots/leaderboard.png)
 
 Leaderboard scopes:
 
@@ -219,7 +225,7 @@ Leaderboard scopes:
 
 ## 📜 Digital Certificate
 
-![Certificate](./certificate.png)
+![Digital Certificate](./screenshots/certificate.png)
 
 Certificates include:
 
@@ -238,7 +244,7 @@ Certificates include:
 
 ## 🔎 Certificate Verification
 
-![Certificate Verification](./certificate-verification.png)
+![Certificate Verification](./screenshots/certificate-verification.png)
 
 Anyone can verify a certificate using its unique verification code or QR code.
 
@@ -252,7 +258,7 @@ https://your-domain.com/verify/QM-8F4A9C21
 
 ## 📈 Advanced Analytics
 
-![Analytics Dashboard](./analytics-dashboard.png)
+![Analytics Dashboard](./screenshots/analytics-dashboard.png)
 
 Analytics include:
 
@@ -270,803 +276,13 @@ Analytics include:
 
 ---
 
-# 🌟 Core Features
-
-## 👨‍🎓 Student Features
-
-### 📚 Intelligent Quiz Library
-
-Students can discover quizzes using:
-
-* Search
-* Category
-* Subject
-* Difficulty
-* Duration
-* Score requirement
-* Tags
-* Availability
-* Completion status
-
-### 🎯 Personalized Dashboard
-
-The dashboard intelligently summarizes:
-
-```text
-Quizzes Taken
-Average Score
-Pass Rate
-Certificates Earned
-Current Rank
-Strongest Topics
-Weakest Topics
-Recent Attempts
-```
-
-### ⏱️ Resilient Examination Engine
-
-QuizMaster is designed to protect examination progress against:
-
-* Browser refresh
-* Temporary network failure
-* Tab closure
-* Connection interruption
-* Accidental navigation
-* Device changes
-
-Progress is checkpointed through the server-backed session system.
-
-### 🏁 Automatic Submission
-
-When the timer reaches zero:
-
-```text
-Timer → Session Validation → Final Sync → Server Scoring → Result
-```
-
-The browser does not determine the final score.
-
----
-
-# 👑 Administrator Features
-
-## 📊 Executive Dashboard
-
-Administrators receive a complete operational overview:
-
-* Students
-* Quizzes
-* Questions
-* Attempts
-* Certificates
-* Categories
-* Groups
-* AI usage
-* System activity
-* Registration statistics
-
----
-
-## 📝 Advanced Quiz Studio
-
-Quiz creation supports:
-
-### General Information
-
-* Quiz title
-* Description
-* Category
-* Subject
-* Instructions
-* Thumbnail
-* Tags
-* Difficulty
-
-### Configuration
-
-* Duration
-* Passing percentage
-* Maximum attempts
-* Question count
-* Total marks
-* Negative marking
-* Random questions
-* Random answers
-* Availability window
-
-### Access Control
-
-* Public
-* Registered students
-* Specific groups
-* Assigned students
-* Private invitation
-
-### Publishing
-
-```text
-Draft
- ↓
-Review
- ↓
-Ready
- ↓
-Published
- ↓
-Archived
-```
-
----
-
-# 🧠 Advanced Question Bank
-
-The question bank supports:
-
-| Question Type        | Supported |
-| -------------------- | --------: |
-| Multiple Choice      |         ✅ |
-| Multiple Select      |         ✅ |
-| True / False         |         ✅ |
-| Short Answer         |         ✅ |
-| Question Explanation |         ✅ |
-| Negative Marking     |         ✅ |
-| Difficulty           |         ✅ |
-| Tags                 |         ✅ |
-| Categories           |         ✅ |
-| Question Pools       |         ✅ |
-| Bulk Import          |         ✅ |
-| Duplicate            |         ✅ |
-| Disable/Enable       |         ✅ |
-| Versioning           |         ✅ |
-
----
-
-# 🤖 Google Gemini AI Superpowers
-
-QuizMaster integrates Google Gemini for intelligent educational workflows.
-
-## 🪄 AI Quiz Generation
-
-Input:
-
-```text
-JavaScript ES6
-30 questions
-Intermediate level
-MCQ
-Include explanations
-```
-
-Output:
-
-```text
-Quiz
-├── Question
-│   ├── Question text
-│   ├── Options
-│   ├── Correct answer
-│   ├── Explanation
-│   ├── Difficulty
-│   ├── Topic
-│   └── Marks
-```
-
----
-
-## 🎯 AI Distractor Generator
-
-AI can generate plausible incorrect answers while maintaining educational quality.
-
----
-
-## 💡 AI Explanation Generator
-
-Automatically generate explanations for:
-
-* Correct answers
-* Incorrect answers
-* Concepts
-* Common mistakes
-* Learning resources
-
----
-
-## 🤖 AI Study Assistant
-
-Students can ask:
-
-```text
-Why is this answer correct?
-
-Explain recursion simply.
-
-Give me a hint.
-
-What topic should I study next?
-
-Why did I get this question wrong?
-```
-
-The assistant should guide the student without simply revealing answers during an active examination.
-
----
-
-## 📚 AI Curriculum Generator
-
-Generate structured learning content:
-
-```text
-Subject
- ↓
-Topics
- ↓
-Subtopics
- ↓
-Learning Objectives
- ↓
-Questions
- ↓
-Assessment
- ↓
-Performance Analysis
-```
-
----
-
-# 🔐 Security & Examination Integrity
-
-QuizMaster follows a **Zero-Client-Trust examination architecture**.
-
-## 🔒 Server-Authoritative Scoring
-
-Correct answers are never trusted from the browser.
-
-```text
-Student Answer
-      ↓
-Server Session
-      ↓
-Frozen Exam Snapshot
-      ↓
-Answer-Key Evaluation
-      ↓
-Negative Marking
-      ↓
-Score Calculation
-      ↓
-Final Result
-```
-
----
-
-## 🧊 Snapshot Isolation
-
-When an examination begins, QuizMaster creates an immutable snapshot.
-
-```text
-Question Bank
-     │
-     ▼
-Exam Start
-     │
-     ▼
-Immutable Snapshot
-     │
-     ▼
-Student Attempt
-```
-
-Future question edits cannot modify historical attempts.
-
----
-
-## 🔀 Secure Randomization
-
-QuizMaster supports:
-
-* Fisher-Yates question shuffling
-* Option permutation
-* Server-generated randomization
-* Option-index remapping
-
-This reduces predictable examination patterns.
-
----
-
-# 🧮 Advanced Scoring Engine
-
-Supports:
-
-### Positive Marks
-
-```text
-Correct = +1
-```
-
-### Negative Marking
-
-```text
-Correct = +1
-Wrong   = -0.25
-Skipped = 0
-```
-
-### Weighted Questions
-
-```text
-Easy   = 1 mark
-Medium = 2 marks
-Hard   = 4 marks
-```
-
-### Passing Calculation
-
-```text
-Percentage =
-(Earned Marks / Maximum Marks) × 100
-```
-
----
-
-# 🏆 Achievement System
-
-Students can unlock achievements such as:
-
-| Achievement           | Example                     |
-| --------------------- | --------------------------- |
-| 🎯 First Attempt      | Complete your first quiz    |
-| 🔥 Perfect Score      | Score 100%                  |
-| 🧠 Knowledge Master   | Complete 10 quizzes         |
-| 🏆 Top Performer      | Reach leaderboard top 10    |
-| 📚 Consistent Learner | Quiz activity for 7 days    |
-| ⚡ Speed Solver        | Complete within target time |
-| 📜 Certified          | Earn first certificate      |
-
----
-
-# 📊 Student Performance Intelligence
-
-QuizMaster tracks:
-
-```text
-Topic
- ├── Accuracy
- ├── Attempts
- ├── Average Score
- ├── Time Spent
- ├── Difficulty
- └── Improvement
-```
-
-Example:
-
-```text
-Data Structures
-██████████████████░░ 90%
-
-Algorithms
-██████████████░░░░░░ 70%
-
-Recursion
-██████████░░░░░░░░░░ 50%
-```
-
-The platform can identify weak areas and recommend targeted practice.
-
----
-
-# 👥 Student & Group Management
-
-Administrators can create:
-
-* Classes
-* Batches
-* Cohorts
-* Departments
-* Courses
-* Training groups
-
-Example:
-
-```text
-University
- ├── Faculty of Technology
- │    ├── ICT
- │    │    ├── Year 1
- │    │    ├── Year 2
- │    │    ├── Year 3
- │    │    └── Year 4
-```
-
-Quizzes can be assigned to specific groups.
-
----
-
-# 📜 Certificate Management
-
-Certificate features:
-
-* Custom templates
-* Logo
-* Background
-* Signature
-* Border
-* Typography
-* Candidate information
-* QR verification
-* Unique certificate IDs
-* PDF generation
-* Verification portal
-* Revocation support
-
-Certificate lifecycle:
-
-```text
-Passed
-  ↓
-Certificate Generated
-  ↓
-Credential ID Created
-  ↓
-QR Generated
-  ↓
-Certificate Issued
-  ↓
-Public Verification
-```
-
----
-
-# 📡 Real-Time & Resilience Features
-
-Advanced session architecture supports:
-
-### Auto Save
-
-```text
-Answer Change
-      ↓
-Local State
-      ↓
-API Checkpoint
-      ↓
-Server Session
-```
-
-### Recovery
-
-```text
-Network Lost
-     ↓
-Offline State
-     ↓
-Local Recovery Data
-     ↓
-Connection Restored
-     ↓
-Sync With Server
-```
-
-### Conflict Protection
-
-The backend validates:
-
-* Session ownership
-* Session status
-* Attempt state
-* Question version
-* Submission state
-* Expiration time
-
----
-
-# 🔔 Notification System
-
-Supported notification types:
-
-* Quiz published
-* Quiz assigned
-* Examination reminder
-* Result published
-* Certificate issued
-* Achievement unlocked
-* System announcement
-* AI generation completed
-* Account notification
-
----
-
-# 🔎 Advanced Search & Filtering
-
-Global search supports:
-
-```text
-Students
-Quizzes
-Questions
-Categories
-Attempts
-Certificates
-Groups
-Activity Logs
-```
-
-Filters can include:
-
-* Date
-* Status
-* Category
-* Difficulty
-* Score
-* Role
-* Group
-* Completion state
-
----
-
-# 📝 Bulk Question Import
-
-Administrators can import questions using structured files.
-
-Example:
-
-```csv
-question,optionA,optionB,optionC,optionD,correctAnswer,difficulty,marks
-"What is 2+2?","3","4","5","6","B","Easy","1"
-```
-
-Validation checks:
-
-* Missing fields
-* Invalid answers
-* Duplicate questions
-* Invalid marks
-* Invalid categories
-* Unsupported question types
-
----
-
-# 📋 Exam Templates
-
-Administrators can create reusable examination templates.
-
-Example:
-
-```text
-Frontend Developer Assessment
-├── 10 HTML Questions
-├── 10 CSS Questions
-├── 10 JavaScript Questions
-├── 5 React Questions
-└── 5 Web Security Questions
-```
-
-Templates reduce repetitive quiz creation.
-
----
-
-# 🧪 Examination Preview Mode
-
-Before publishing, administrators can preview the exact examination experience.
-
-Preview includes:
-
-* Instructions
-* Timer
-* Questions
-* Navigation
-* Mark for review
-* Answer selection
-* Results preview
-
----
-
-# 🛡️ Audit Logging
-
-Important actions are recorded:
-
-```text
-ADMIN_LOGIN
-QUIZ_CREATED
-QUIZ_UPDATED
-QUIZ_PUBLISHED
-QUESTION_CREATED
-QUESTION_UPDATED
-STUDENT_CREATED
-ATTEMPT_STARTED
-ATTEMPT_SUBMITTED
-CERTIFICATE_ISSUED
-CERTIFICATE_REVOKED
-AI_GENERATION
-SYSTEM_SETTING_CHANGED
-```
-
-Audit records can include:
-
-* Actor
-* Action
-* Timestamp
-* Resource
-* IP metadata
-* Previous value
-* New value
-
----
-
-# 📈 Analytics & Reporting
-
-## Administrator Analytics
-
-Metrics include:
-
-* Total users
-* Active users
-* Quiz participation
-* Average score
-* Pass rate
-* Failure rate
-* Completion rate
-* Average completion time
-* Most difficult questions
-* Most successful questions
-* Category performance
-
-## Student Analytics
-
-```text
-Overall Performance
-        ↓
-Category Performance
-        ↓
-Topic Performance
-        ↓
-Question Performance
-        ↓
-Weakness Detection
-        ↓
-Study Recommendation
-```
-
----
-
-# 🏅 Leaderboard System
-
-Supports:
-
-```text
-Global
-Weekly
-Monthly
-Quiz
-Category
-Group
-```
-
-Ranking can consider:
-
-```text
-Score
-+
-Accuracy
-+
-Completion
-+
-Time
-```
-
-Tie-breaking rules should be handled consistently by the backend.
-
----
-
-# 🧩 Advanced UI/UX
-
-QuizMaster uses a modern SaaS design system with:
-
-* Responsive layouts
-* Light mode
-* Dark mode
-* Glassmorphism
-* Neumorphism-inspired depth
-* Modern cards
-* Animated statistics
-* Interactive charts
-* Micro-interactions
-* Skeleton loaders
-* Toast notifications
-* Empty states
-* Error states
-* Confirmation dialogs
-* Accessible forms
-* Keyboard navigation
-
-### Responsive Targets
-
-```text
-📱 Mobile
-📱 Tablet
-💻 Laptop
-🖥️ Desktop
-📺 Large Display
-```
-
----
-
-# 🏗️ System Architecture
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                     QUIZMASTER PLATFORM                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  React 19 + Vite + Tailwind                                │
-│              │                                              │
-│              ▼                                              │
-│       REST API / JWT                                        │
-│              │                                              │
-│              ▼                                              │
-│  Node.js + Express                                          │
-│              │                                              │
-│       ┌──────┼───────────┐                                  │
-│       ▼      ▼           ▼                                  │
-│   Auth     Exam       AI Services                           │
-│   RBAC     Engine     Gemini                                │
-│       │      │           │                                  │
-│       └──────┼───────────┘                                  │
-│              ▼                                              │
-│        MongoDB Atlas                                        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-# 🛠️ Technology Stack
-
-| Layer             | Technology          |
-| ----------------- | ------------------- |
-| Frontend          | React 19            |
-| Build Tool        | Vite 8              |
-| Styling           | Tailwind CSS 3.4    |
-| Routing           | React Router        |
-| Icons             | Lucide React        |
-| Charts            | Recharts / Chart.js |
-| Animation         | Framer Motion       |
-| Backend           | Node.js 20          |
-| API               | Express.js          |
-| Database          | MongoDB Atlas       |
-| ODM               | Mongoose 8          |
-| Authentication    | JWT                 |
-| Password Security | bcrypt              |
-| AI                | Google Gemini       |
-| Security          | Helmet              |
-| Rate Limiting     | express-rate-limit  |
-| Validation        | express-validator   |
-| PDF               | jsPDF               |
-| QR                | QR Code Generator   |
-| Testing           | Jest / Supertest    |
-| API Testing       | Postman             |
-
----
-
-# 📂 Project Structure
+# 📁 Project Structure
 
 ```text
 QuizMaster/
 │
 ├── backend/
 │   ├── src/
-│   │   ├── config/
-│   │   ├── controllers/
-│   │   ├── middleware/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   ├── validators/
-│   │   ├── utils/
-│   │   ├── seed/
-│   │   ├── app.js
-│   │   └── server.js
-│   │
 │   ├── tests/
 │   ├── docs/
 │   ├── .env.example
@@ -1074,39 +290,26 @@ QuizMaster/
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── hooks/
-│   │   ├── layouts/
-│   │   ├── pages/
-│   │   │   ├── admin/
-│   │   │   ├── auth/
-│   │   │   ├── public/
-│   │   │   └── student/
-│   │   ├── utils/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
 │   ├── public/
 │   ├── .env.example
 │   └── package.json
 │
-├── quizmaster-banner.png
-├── landing-page.png
-├── login.png
-├── register.png
-├── admin-dashboard.png
-├── quiz-management.png
-├── question-bank.png
-├── ai-generator.png
-├── student-dashboard.png
-├── exam-interface.png
-├── results-dashboard.png
-├── leaderboard.png
-├── certificate.png
-├── certificate-verification.png
-├── analytics-dashboard.png
+├── screenshots/
+│   ├── admin-dashboard.png
+│   ├── ai-generator.png
+│   ├── analytics-dashboard.png
+│   ├── certificate.png
+│   ├── certificate-verification.png
+│   ├── exam-interface.png
+│   ├── landing-page.png
+│   ├── leaderboard.png
+│   ├── login.png
+│   ├── question-bank.png
+│   ├── quiz-management.png
+│   ├── quizmaster-banner.png
+│   ├── register.png
+│   ├── results-dashboard.png
+│   └── student-dashboard.png
 │
 ├── postman/
 ├── README.md
@@ -1116,399 +319,209 @@ QuizMaster/
 
 ---
 
-# 🔐 Authentication & RBAC
+# 🛠️ Technology Stack
 
-## Roles
+| Layer             | Technology        |
+| ----------------- | ----------------- |
+| Frontend          | React 19          |
+| Build Tool        | Vite 8            |
+| Styling           | Tailwind CSS 3.4  |
+| Backend           | Node.js 20        |
+| API               | Express.js        |
+| Database          | MongoDB Atlas     |
+| ODM               | Mongoose          |
+| Authentication    | JWT               |
+| Password Security | bcrypt            |
+| AI                | Google Gemini     |
+| Charts            | Recharts          |
+| Animation         | Framer Motion     |
+| Security          | Helmet            |
+| Validation        | express-validator |
 
-### 👑 Administrator
+---
 
-Full system access:
-
-```text
-Users
-Quizzes
-Questions
-Categories
-Groups
-Attempts
-Analytics
-Certificates
-AI
-Settings
-Audit Logs
-```
+# 🌟 Core Features
 
 ### 👨‍🎓 Student
 
-```text
-Dashboard
-Quiz Library
-Examinations
-Results
-Certificates
-Leaderboard
-Achievements
-AI Tutor
-Profile
-```
+* Personalized dashboard
+* Quiz library
+* Online examinations
+* Real-time timer
+* Auto-save
+* Exam recovery
+* Results analysis
+* Certificates
+* Leaderboards
+* Achievements
+* AI study assistant
+
+### 👑 Administrator
+
+* Executive dashboard
+* Quiz management
+* Question bank
+* AI quiz generation
+* Student management
+* Group management
+* Analytics
+* Certificate management
+* Audit logging
+* System monitoring
+
+### 🤖 AI
+
+* AI quiz generation
+* Question generation
+* Distractor generation
+* Explanation generation
+* AI study assistant
+* Curriculum generation
+
+### 🔐 Security
+
+* JWT authentication
+* Role-based access control
+* Server-authoritative scoring
+* Immutable exam snapshots
+* Secure randomization
+* Attempt protection
+* Rate limiting
+* Request validation
+* Audit logging
 
 ---
 
-# 📡 REST API
-
-## Authentication
-
-```http
-POST /api/auth/register
-POST /api/auth/login
-GET  /api/auth/me
-POST /api/auth/logout
-```
-
-## Quiz
-
-```http
-GET    /api/quizzes
-GET    /api/quizzes/:id
-POST   /api/quizzes
-PUT    /api/quizzes/:id
-DELETE /api/quizzes/:id
-POST   /api/quizzes/:id/publish
-POST   /api/quizzes/:id/duplicate
-```
-
-## Questions
-
-```http
-GET    /api/questions
-POST   /api/questions
-GET    /api/questions/:id
-PUT    /api/questions/:id
-DELETE /api/questions/:id
-POST   /api/questions/import
-POST   /api/questions/:id/duplicate
-```
-
-## Examinations
-
-```http
-POST /api/exams/start/:quizId
-POST /api/exams/sync/:sessionId
-GET  /api/exams/session/:sessionId
-POST /api/exams/submit/:sessionId
-```
-
-## Results
-
-```http
-GET /api/results
-GET /api/results/:attemptId
-GET /api/results/:attemptId/review
-```
-
-## Certificates
-
-```http
-GET  /api/certificates
-GET  /api/certificates/:id
-GET  /api/certificates/verify/:code
-POST /api/certificates/:id/revoke
-```
-
-## AI
-
-```http
-POST /api/ai/generate-quiz
-POST /api/ai/generate-question
-POST /api/ai/generate-explanation
-POST /api/ai/generate-distractors
-POST /api/ai/chat
-```
-
-## Analytics
-
-```http
-GET /api/analytics/dashboard
-GET /api/analytics/students
-GET /api/analytics/quizzes
-GET /api/analytics/categories
-GET /api/analytics/performance
-```
-
----
-
-# 🚀 Installation
-
-## Requirements
-
-* Node.js 20+
-* npm
-* MongoDB Atlas or local MongoDB
-* Google Gemini API key
+# 🚀 Getting Started
 
 ## Backend
 
 ```bash
 cd backend
 npm install
+npm run dev
 ```
 
-Create `.env` from `.env.example`:
+## Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+# 🔐 Environment Variables
+
+### Backend
 
 ```env
 PORT=5000
 NODE_ENV=development
 
-MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@cluster.mongodb.net/quizmaster
+MONGODB_URI=your_mongodb_connection_string
 
-JWT_SECRET=your_secure_secret
-JWT_EXPIRES_IN=7d
+JWT_SECRET=your_secure_jwt_secret
 
 CLIENT_URL=http://localhost:5173
 
 GEMINI_API_KEY=your_gemini_api_key
-GEMINI_MODEL=your_supported_gemini_model
-
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX=100
 ```
 
-Start:
-
-```bash
-npm run dev
-```
-
-Backend:
-
-```text
-http://localhost:5000
-```
-
----
-
-# 🎨 Frontend
-
-```bash
-cd frontend
-npm install
-```
-
-Create `.env`:
+### Frontend
 
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
 ```
 
-Run:
+> Never commit real API keys, passwords, JWT secrets, or MongoDB credentials to GitHub.
 
-```bash
-npm run dev
-```
+---
 
-Frontend:
+# 🧮 Examination Flow
 
 ```text
-http://localhost:5173
+Student
+   ↓
+Select Quiz
+   ↓
+Eligibility Validation
+   ↓
+Exam Snapshot
+   ↓
+Secure Exam Session
+   ↓
+Answer Questions
+   ↓
+Auto-Save
+   ↓
+Submit / Auto-Submit
+   ↓
+Server Validation
+   ↓
+Server-Side Scoring
+   ↓
+Result
+   ↓
+Certificate Eligibility
 ```
 
 ---
 
-# 👤 Demo Accounts
+# 📊 Analytics
 
-> Change these credentials before deploying a public instance.
+QuizMaster provides analytics for:
 
-| Role          | Email                 | Password   |
-| ------------- | --------------------- | ---------- |
-| 👑 Admin      | `admin@quizmaster.io` | `admin123` |
-| 👨‍🎓 Student | `alex@quizmaster.io`  | `alex123`  |
-| 👩‍🎓 Student | `sarah@quizmaster.io` | `sarah123` |
-
----
-
-# 🧪 Testing
-
-Run backend tests:
-
-```bash
-cd backend
-npm test
-```
-
-Test categories:
-
-```text
-Authentication
-RBAC
-Scoring
-Negative Marking
-Randomization
-Snapshot Isolation
-Exam Sessions
-API Validation
-Certificate Verification
-```
+* Student performance
+* Quiz participation
+* Pass/fail rates
+* Average scores
+* Question accuracy
+* Difficulty analysis
+* Category performance
+* Completion rates
+* Certificate issuance
+* Leaderboards
 
 ---
 
-# 🛡️ Security Architecture
+# 📜 Certificate System
 
-QuizMaster implements defense-in-depth security.
+The certificate system supports:
 
-### Authentication
-
-* JWT authentication
-* Password hashing
-* Token expiration
-* Protected routes
-
-### API Security
-
-* Helmet
-* CORS
-* Rate limiting
-* Request validation
-* Error handling
-* RBAC
-* Input sanitization
-
-### Examination Security
-
-* Server-side scoring
-* Frozen snapshots
-* Server-authoritative timer
-* Attempt ownership validation
-* Session state validation
-* Duplicate submission protection
-* Randomized questions
-* Randomized options
-
----
-
-# 🧠 Database Architecture
-
-Core collections:
-
-```text
-users
-roles
-quizzes
-questions
-categories
-quizSnapshots
-examSessions
-attempts
-answers
-certificates
-certificateTemplates
-studentGroups
-achievements
-notifications
-leaderboards
-auditLogs
-aiGenerations
-systemSettings
-```
-
----
-
-# 🔄 Examination Lifecycle
-
-```text
-Student selects quiz
-        ↓
-Pre-exam instructions
-        ↓
-Server validates eligibility
-        ↓
-Exam snapshot created
-        ↓
-Secure session initialized
-        ↓
-Questions delivered
-        ↓
-Student answers
-        ↓
-Automatic checkpoints
-        ↓
-Timer synchronization
-        ↓
-Submit / Auto-submit
-        ↓
-Server validates session
-        ↓
-Server calculates score
-        ↓
-Attempt permanently stored
-        ↓
-Result generated
-        ↓
-Certificate eligibility checked
-        ↓
-Certificate issued
-```
+* Unique certificate IDs
+* QR codes
+* Verification URLs
+* Digital signatures
+* Custom templates
+* Organization branding
+* Certificate revocation
+* Public verification
 
 ---
 
 # 🗺️ Roadmap
 
-## Phase 1 — Core Platform
-
 * [x] Authentication
-* [x] Student dashboard
 * [x] Admin dashboard
+* [x] Student dashboard
 * [x] Quiz management
 * [x] Question bank
 * [x] Examination engine
 * [x] Server-side scoring
-
-## Phase 2 — Intelligence
-
-* [x] Gemini AI integration
-* [x] AI quiz generation
-* [x] AI explanations
-* [x] AI study assistant
-* [ ] Adaptive difficulty engine
-* [ ] AI-powered question quality scoring
-
-## Phase 3 — Enterprise
-
-* [ ] Organization management
+* [x] Google Gemini integration
+* [x] Analytics
+* [x] Leaderboard
+* [x] Digital certificates
 * [ ] Multi-tenant architecture
-* [ ] Advanced roles
-* [ ] Department management
-* [ ] Institution branding
 * [ ] SSO
-* [ ] Advanced audit reports
-
----
-
-# 📚 Documentation
-
-Additional documentation can be maintained in:
-
-```text
-backend/docs/
-```
-
-Recommended documentation:
-
-```text
-backend/docs/
-├── API.md
-├── ARCHITECTURE.md
-├── DATABASE.md
-├── SECURITY.md
-├── AI.md
-├── EXAM_ENGINE.md
-└── CERTIFICATES.md
-```
+* [ ] Advanced adaptive assessments
+* [ ] Institution management
 
 ---
 
 # 🤝 Contributing
-
-Contributions are welcome.
 
 ```bash
 git clone https://github.com/Jathugulan/quizmaster-pro-mern.git
@@ -1519,35 +532,12 @@ git checkout -b feature/new-feature
 
 git add .
 
-git commit -m "feat: add new assessment feature"
+git commit -m "feat: add new feature"
 
 git push origin feature/new-feature
 ```
 
-Then open a Pull Request.
-
----
-
-# 🐛 Bug Reports
-
-When reporting an issue, include:
-
-* Browser
-* Operating system
-* Reproduction steps
-* Expected behavior
-* Actual behavior
-* Screenshots
-* Console errors
-* API response where applicable
-
----
-
-# 🔐 Security Disclosure
-
-Please do not publicly disclose security vulnerabilities.
-
-Report security issues privately to the project maintainer.
+Then create a Pull Request.
 
 ---
 
@@ -1555,7 +545,7 @@ Report security issues privately to the project maintainer.
 
 This project is licensed under the **MIT License**.
 
-See [LICENSE](LICENSE) for details.
+See [`LICENSE`](./LICENSE) for details.
 
 ---
 
@@ -1567,32 +557,23 @@ See [LICENSE](LICENSE) for details.
 
 **Intelligent Examination & Assessment Platform**
 
-Built for:
+Built with ❤️ using:
 
-🎓 Universities
-🏫 Schools
-📚 Training Institutes
-👨‍🏫 Educators
-💼 Corporate Training
-🏆 Certification Programs
-
-<br/>
-
-**Built with ❤️ using React, Node.js, Express, MongoDB & Google Gemini AI**
+**React • Node.js • Express • MongoDB • Google Gemini AI**
 
 </div>
 
 ---
 
-# ⭐ Support the Project
+# ⭐ Support
 
-If QuizMaster helped you:
+If you find QuizMaster useful:
 
-⭐ Star the repository
-🍴 Fork the project
-🐛 Report issues
-💡 Suggest features
-🤝 Submit pull requests
+* ⭐ Star the repository
+* 🍴 Fork the project
+* 🐛 Report bugs
+* 💡 Suggest features
+* 🤝 Submit pull requests
 
 ---
 
@@ -1600,8 +581,6 @@ If QuizMaster helped you:
 
 ### 🚀 QuizMaster
 
-**From Traditional Quizzes → Intelligent Assessments**
-
-`Secure • Intelligent • Resilient • Scalable • Verifiable`
+**Secure • Intelligent • Resilient • Scalable • Verifiable**
 
 </div>
